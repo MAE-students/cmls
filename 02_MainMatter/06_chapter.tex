@@ -1,0 +1,116 @@
+%! TEX root = main.tex  % Specifies the main document file for multi-file projects
+
+\chapter{Introduction to JUCE}
+
+JUCE is a cross-platform C++ framework designed for audio applications and plugin development. Projucer is an integrated project management tool that simplifies JUCE-based development.
+
+Key features of Projucer:
+
+\begin{itemize}
+    \item Supports multiple operating systems (Windows, macOS, Linux, iOS, Android)
+    \item Generates project files compatible with popular IDEs (Xcode, Visual Studio, Makefile)
+    \item Manages project settings, source files, and dependencies
+    \item Provides a live build feature for real-time code compilation and preview
+\end{itemize}
+
+Projucer organizes projects using predefined templates, which can be further modified in an external IDE.
+
+\section{Workflow of Application Development with JUCE}
+
+The general workflow for developing an application with JUCE includes:
+
+\begin{enumerate}
+    \item Setting up the project using Projucer
+    \item Including the required JUCE and external libraries
+    \item Developing, building, and deploying the project in the preferred IDE
+\end{enumerate}
+
+When using the live build functionality, the build and development process can be completed within Projucer.
+
+\section{Project Types in Projucer}
+
+Projucer supports several types of projects, each suited for different applications:
+
+\begin{itemize}
+    \item GUI Application: A minimal JUCE project with an empty application window, used for graphical user interface development.
+    \item Animated Application: Similar to a GUI application but optimized for graphical animations.
+    \item OpenGL Application: Adds OpenGL support for rendering 3D graphics and shaders.
+    \item Console Application: A command-line application without a graphical interface.
+    \item Audio Application: A project pre-configured for audio input and output handling.
+    \item Audio Plug-In: A template for VST, AudioUnit, and AAX plugin development.
+    \item Static Library: Used to create reusable software libraries linked statically.
+    \item Dynamic Library: Similar to a static library but linked dynamically.
+\end{itemize}
+
+\section{Example Projects in Projucer}
+
+JUCE provides example projects located in the \texttt{JUCE/examples} directory. These projects serve as templates and can be accessed via:
+
+\begin{supercollider*}
+File > Open Example
+\end{supercollider*}
+
+\section{Audio Plugin Development with JUCE}
+
+\subsection{Core Plugin Classes}
+
+A JUCE audio plugin project is built around two main classes:
+
+\begin{itemize}
+    \item \texttt{nameOfTheProjectAudioProcessor}: Inherits from \texttt{AudioProcessor} and handles audio processing and MIDI input/output.
+    \item \texttt{nameOfTheProjectAudioProcessorEditor}: Inherits from \texttt{AudioProcessorEditor} and manages the plugin’s graphical user interface.
+\end{itemize}
+
+These classes implement a communication mechanism between the Digital Audio Workstation (DAW) and the plugin.
+
+\subsection{Key Methods in the AudioProcessor Class}
+
+The \texttt{AudioProcessor} class defines the core functionality of the plugin:
+
+\begin{itemize}
+    \item \texttt{nameOfTheProjectAudioProcessor()}: Constructor
+    \item \texttt{\textasciitilde nameOfTheProjectAudioProcessor()}: Destructor
+    \item \texttt{void prepareToPlay(double sampleRate, int samplesPerBlock) override}: Initializes the processor
+    \item \texttt{void processBlock(AudioBuffer<float>\&, MidiBuffer\&) override}: Handles audio and MIDI processing
+    \item \texttt{void releaseResources() override}: Cleans up resources when the plugin is deactivated
+\end{itemize}
+
+\subsection{Key Methods in the AudioProcessorEditor Class}
+
+The \texttt{AudioProcessorEditor} class is responsible for rendering the GUI:
+
+\begin{itemize}
+    \item \texttt{nameOfTheProjectAudioProcessorEditor(nameOfTheProjectAudioProcessor\&)}: Constructor
+    \item \texttt{\textasciitilde nameOfTheProjectAudioProcessorEditor()}: Destructor
+    \item \texttt{void paint(Graphics\&) override}: Renders visual elements
+    \item \texttt{void resized() override}: Adjusts the layout when the window is resized
+\end{itemize}
+
+\section{Creating GUI Controls in the Plugin}
+
+To add a new GUI control (e.g., a slider), the following steps must be followed:
+
+\begin{enumerate}
+    \item Declare the control as a private member in \texttt{AudioProcessorEditor}.
+    \item Set the control properties.
+    \item Use \texttt{addAndMakeVisible} to display the control in the plugin window.
+    \item Adjust the control’s size and position in the \texttt{resized()} function.
+    \item Attach a listener to update the controlled parameter when the control value changes.
+\end{enumerate}
+
+Example methods:
+
+\begin{itemize}
+    \item \texttt{AudioProcessorEditor::AudioProcessorEditor()}: Initializes the control
+    \item \texttt{AudioProcessorEditor::resized()}: Adjusts control layout
+    \item \texttt{AudioProcessorEditor::typeOfComponentValueChanged()}: Handles control interactions
+\end{itemize}
+
+Common GUI components include:
+
+\begin{itemize}
+    \item Button
+    \item TextButton
+    \item Slider (including rotary sliders)
+    \item ComboBox
+\end{itemize}
